@@ -1,5 +1,5 @@
 # stock_c-
-Chinese stock market info（C++version）
+Chinese stock market tool（C++version）
 
 How to use it:
 1. Compile it in Linux
