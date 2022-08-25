@@ -23,7 +23,7 @@ CURLcode UtilityHelper::curlProtect(const string& url, int timeout) {
 	CURL* curl = curl_easy_init();
 	CURLcode code;
 	struct curl_slist* head = NULL;
-	head = curl_slist_append(head, "Content-Type:application/x-www-form-urlencoded;charset=UTF-8");
+	head = curl_slist_append(head, "Referer:https://finance.sina.com.cn");
 
 	curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 	curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
@@ -51,7 +51,7 @@ void UtilityHelper::split(const string& s, vector<string>& v, const string& flag
 }
 
 void Stock::show() {
-	string urlHead = "http://hq.sinajs.cn/list=";
+	string urlHead = "https://hq.sinajs.cn/list=";
 	string url = urlHead + no;
 	string res;
 	UtilityHelper::curlProtect(url, 3);
@@ -135,5 +135,29 @@ int main() {
 		stk->show();
 	}
 	file.close();
+	
+	/*string url = "http://hq.sinajs.cn/list=sh688189";
+	string res;
+	UtilityHelper::curlProtect(url, 3);
+	vector<string> v;
+
+	//先分割字符串
+	string sep = "\"";
+	string::size_type loc = UtilityHelper::result.find(sep);
+	string str = UtilityHelper::result.substr(loc + 1, UtilityHelper::result.length());
+
+	//转换格式
+	IconvConvert icc("gbk", "utf-8");
+	char outString[512] = {0};
+	char* str_input = const_cast<char*>(str.c_str());
+	int ret = icc.ConvertCode(str_input, strlen(str_input), outString, 512);
+	string out = (string)outString;
+	//cout << out << endl;
+
+	UtilityHelper::split(out, v, ",");
+	//for (vector<string>::size_type i = 0; i != v.size(); ++i)
+	//	cout << v[i] << endl;
+	Stock* st = new Stock("688189");
+	st->show(v);*/
 	return 0;
 }
